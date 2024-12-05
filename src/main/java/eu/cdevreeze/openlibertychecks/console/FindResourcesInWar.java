@@ -59,6 +59,10 @@ import static eu.cdevreeze.openlibertychecks.reflection.jakartaee10.CommonJakart
  * To run this program, first complete the class path for running. For example, obtain (most of) the class path
  * from the analysed project by running command "mvn dependency:build-classpath", for example.
  * <p>
+ * This program can also run on the class path of the analysed project, if it contains a dependency
+ * on this project. It may be needed to extend that class path with the dependencies of scope "provided",
+ * such as the jakartaee-api dependency, before running this program "as part of the analysed project".
+ * <p>
  * This program takes at least one directory path. The first one contains the open WAR directory.
  * The other ones contain OpenLiberty configuration files.
  *
@@ -287,7 +291,11 @@ public class FindResourcesInWar {
             return fileStream
                     .filter(Files::isRegularFile)
                     .filter(p -> p.getFileName().toString().endsWith(".xml"))
-                    .map(p -> Document.from(docParser.parse(p.toUri())).documentElement())
+                    .map(p ->
+                            Document.from(docParser.parse(p.toUri()))
+                                    .withUri(dir.toUri())
+                                    .documentElement()
+                    )
                     .filter(e -> e.name().equals(Names.JAKARTAEE_WEBAPP_NAME))
                     .toList();
         } catch (IOException e) {
@@ -302,7 +310,11 @@ public class FindResourcesInWar {
             return fileStream
                     .filter(Files::isRegularFile)
                     .filter(p -> p.getFileName().toString().endsWith(".xml"))
-                    .map(p -> Document.from(docParser.parse(p.toUri())).documentElement())
+                    .map(p ->
+                            Document.from(docParser.parse(p.toUri()))
+                                    .withUri(dir.toUri())
+                                    .documentElement()
+                    )
                     .filter(e -> e.name().equals(new QName("server")))
                     .toList();
         } catch (IOException e) {
