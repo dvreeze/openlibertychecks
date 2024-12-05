@@ -286,7 +286,7 @@ public class FindResourcesInWar {
         try (Stream<Path> fileStream = Files.walk(dir)) {
             return fileStream
                     .filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().endsWith(".xml"))
+                    .filter(p -> p.getFileName().toString().endsWith(".xml"))
                     .map(p -> Document.from(docParser.parse(p.toUri())).documentElement())
                     .filter(e -> e.name().equals(Names.JAKARTAEE_WEBAPP_NAME))
                     .toList();
@@ -301,7 +301,7 @@ public class FindResourcesInWar {
         try (Stream<Path> fileStream = Files.walk(dir)) {
             return fileStream
                     .filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().endsWith(".xml"))
+                    .filter(p -> p.getFileName().toString().endsWith(".xml"))
                     .map(p -> Document.from(docParser.parse(p.toUri())).documentElement())
                     .filter(e -> e.name().equals(new QName("server")))
                     .toList();
