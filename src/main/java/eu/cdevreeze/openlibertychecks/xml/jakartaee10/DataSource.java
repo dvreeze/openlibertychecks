@@ -31,7 +31,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class DataSource implements JakartaEEXmlContent {
+public final class DataSource implements JndiEnvironmentRefElement {
 
     private final ElementTree.Element element;
 

@@ -31,7 +31,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class ConnectionFactory implements JakartaEEXmlContent {
+public final class ConnectionFactory implements JndiEnvironmentRefElement {
 
     private final ElementTree.Element element;
 

@@ -23,8 +23,9 @@ import eu.cdevreeze.openlibertychecks.console.internal.XmlRootElementFinder;
 import eu.cdevreeze.openlibertychecks.reflection.internal.ClassPathScanning;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.JndiEntry;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.Server;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ContainsJndiEnvironmentRefs;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiEnvironmentRefElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ResourceRef;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
 import eu.cdevreeze.yaidom4j.core.NamespaceScope;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
@@ -179,11 +180,11 @@ public class FindResourcesInWar {
                         .collect(ImmutableList.toImmutableList())
         );
 
-        ImmutableList<Node> resourceRefs = findResourceRefsInWebXmlFiles(otherDirs)
+        ImmutableList<Node> jndiEnvironmentRefs = findJndiEnvironmentRefsInWebXmlFiles(otherDirs)
                 .stream()
                 .map(e ->
                         nb.element(
-                                        "resourceRef",
+                                        e.getElement().name().getLocalPart(),
                                         ImmutableMap.of("doc", e.getElement().docUriOption().map(java.net.URI::toString).orElse(""))
                                 )
                                 .plusChild(e.getElement().underlyingNode())
@@ -204,7 +205,7 @@ public class FindResourcesInWar {
         return nb.element("resourceSummary")
                 .plusChild(resourceAnnotationsElement)
                 .plusChild(
-                        nb.element("resourceRefs").withChildren(resourceRefs)
+                        nb.element("jndiEnvironmentRefs").withChildren(jndiEnvironmentRefs)
                 )
                 .plusChild(
                         nb.element("jndiEntries").withChildren(jndiEntries)
@@ -222,14 +223,14 @@ public class FindResourcesInWar {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static List<ResourceRef> findResourceRefsInWebXmlFiles(List<Path> dirs) {
+    public static List<JndiEnvironmentRefElement> findJndiEnvironmentRefsInWebXmlFiles(List<Path> dirs) {
         List<ElementTree.Element> webXmlRoots = dirs.stream()
                 .flatMap(dir -> findWebXmlRootElements(dir).stream())
                 .toList();
 
         return webXmlRoots.stream()
                 .map(WebApp::new)
-                .flatMap(e -> e.resourceRefs().stream())
+                .flatMap(e -> ContainsJndiEnvironmentRefs.findJndiEnvironmentRefElements(e).stream())
                 .toList();
     }
 

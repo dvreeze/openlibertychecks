@@ -18,7 +18,9 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.*;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ContainsJndiEnvironmentRefs;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Listener;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 
 import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
@@ -28,7 +30,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class WebApp implements WebXmlContent {
+public final class WebApp implements WebXmlContent, ContainsJndiEnvironmentRefs {
 
     private final ElementTree.Element element;
 
@@ -89,57 +91,6 @@ public final class WebApp implements WebXmlContent {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "error-page"))
                 .map(ErrorPage::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    // JNDI Environment Refs
-
-    public ImmutableList<EnvEntry> envEntries() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "env-entry"))
-                .map(EnvEntry::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<ResourceRef> resourceRefs() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "resource-ref"))
-                .map(ResourceRef::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<ResourceEnvRef> resourceEnvRefs() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "resource-env-ref"))
-                .map(ResourceEnvRef::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<DataSource> dataSources() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "data-source"))
-                .map(DataSource::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<JmsConnectionFactory> jmsConnectionFactories() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "jms-connection-factory"))
-                .map(JmsConnectionFactory::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<JmsDestination> jmsDestinations() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "jms-destination"))
-                .map(JmsDestination::new)
-                .collect(ImmutableList.toImmutableList());
-    }
-
-    public ImmutableList<ConnectionFactory> connectionFactories() {
-        String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "connection-factory"))
-                .map(ConnectionFactory::new)
                 .collect(ImmutableList.toImmutableList());
     }
 }

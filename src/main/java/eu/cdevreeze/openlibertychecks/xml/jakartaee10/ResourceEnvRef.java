@@ -29,7 +29,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class ResourceEnvRef implements JakartaEEXmlContent {
+public final class ResourceEnvRef implements JndiEnvironmentRefElement {
 
     private final ElementTree.Element element;
 
@@ -46,6 +46,11 @@ public final class ResourceEnvRef implements JakartaEEXmlContent {
 
     public Optional<String> idOption() {
         return element.attributeOption(new QName("id"));
+    }
+
+    @Override
+    public String name() {
+        return resourceEnvRefName();
     }
 
     public String resourceEnvRefName() {

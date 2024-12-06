@@ -30,7 +30,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class JmsDestination implements JakartaEEXmlContent {
+public final class JmsDestination implements JndiEnvironmentRefElement {
 
     private final ElementTree.Element element;
 
