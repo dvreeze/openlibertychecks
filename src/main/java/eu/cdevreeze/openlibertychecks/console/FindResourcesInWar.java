@@ -184,7 +184,7 @@ public class FindResourcesInWar {
                 .stream()
                 .map(e ->
                         nb.element(
-                                        e.getElement().name().getLocalPart(),
+                                        e.getClass().getSimpleName(),
                                         ImmutableMap.of("doc", e.getElement().docUriOption().map(java.net.URI::toString).orElse(""))
                                 )
                                 .plusChild(e.getElement().underlyingNode())
