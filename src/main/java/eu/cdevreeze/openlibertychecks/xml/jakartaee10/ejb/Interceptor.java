@@ -17,7 +17,7 @@
 package eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb;
 
 import com.google.common.base.Preconditions;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ContainsJndiEnvironmentRefs;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 
@@ -31,7 +31,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class Interceptor implements EjbJarXmlContent, ContainsJndiEnvironmentRefs {
+public final class Interceptor implements EjbJarXmlContent, JndiResourceContainerElement {
 
     private final ElementTree.Element element;
 

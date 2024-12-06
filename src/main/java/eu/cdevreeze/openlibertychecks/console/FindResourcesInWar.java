@@ -23,7 +23,7 @@ import eu.cdevreeze.openlibertychecks.console.internal.XmlRootElementFinder;
 import eu.cdevreeze.openlibertychecks.reflection.internal.ClassPathScanning;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.JndiEntry;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.Server;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ContainsJndiEnvironmentRefs;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiEnvironmentRefElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
@@ -230,7 +230,7 @@ public class FindResourcesInWar {
 
         return webXmlRoots.stream()
                 .map(WebApp::new)
-                .flatMap(e -> ContainsJndiEnvironmentRefs.findJndiEnvironmentRefElements(e).stream())
+                .flatMap(e -> JndiResourceContainerElement.findJndiEnvironmentRefElements(e).stream())
                 .toList();
     }
 

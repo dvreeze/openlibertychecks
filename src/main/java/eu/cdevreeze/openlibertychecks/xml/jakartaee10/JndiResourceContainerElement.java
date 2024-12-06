@@ -28,7 +28,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public interface ContainsJndiEnvironmentRefs extends JakartaEEXmlContent {
+public interface JndiResourceContainerElement extends JakartaEEXmlContent {
 
     default ImmutableList<EnvEntry> envEntries() {
         String ns = getElement().elementName().getNamespaceURI();
@@ -82,7 +82,7 @@ public interface ContainsJndiEnvironmentRefs extends JakartaEEXmlContent {
     /**
      * Returns JndiEnvironmentRefElement instances of known JndiEnvironmentRefElement subtypes
      */
-    static ImmutableList<JndiEnvironmentRefElement> findJndiEnvironmentRefElements(ContainsJndiEnvironmentRefs element) {
+    static ImmutableList<JndiEnvironmentRefElement> findJndiEnvironmentRefElements(JndiResourceContainerElement element) {
         return Stream.of(
                 element.envEntries().stream().map(e -> (JndiEnvironmentRefElement) e),
                 element.resourceRefs().stream().map(e -> (JndiEnvironmentRefElement) e),

@@ -18,7 +18,7 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ContainsJndiEnvironmentRefs;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.SecurityRoleRef;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
@@ -33,7 +33,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class MessageDrivenBean implements EjbJarXmlContent, ContainsJndiEnvironmentRefs {
+public final class MessageDrivenBean implements EjbJarXmlContent, JndiResourceContainerElement {
 
     private final ElementTree.Element element;
 
