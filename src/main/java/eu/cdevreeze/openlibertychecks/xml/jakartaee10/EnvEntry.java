@@ -25,17 +25,17 @@ import java.util.Optional;
 import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
 
 /**
- * Resource reference XML element wrapper.
+ * Env entry XML element wrapper.
  *
  * @author Chris de Vreeze
  */
-public final class ResourceEnvRef implements JakartaEEXmlContent {
+public final class EnvEntry implements JakartaEEXmlContent {
 
     private final ElementTree.Element element;
 
-    public ResourceEnvRef(ElementTree.Element element) {
+    public EnvEntry(ElementTree.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
-        Preconditions.checkArgument(element.elementName().getLocalPart().equals("resource-env-ref"));
+        Preconditions.checkArgument(element.elementName().getLocalPart().equals("env-entry"));
 
         this.element = element;
     }
@@ -48,17 +48,24 @@ public final class ResourceEnvRef implements JakartaEEXmlContent {
         return element.attributeOption(new QName("id"));
     }
 
-    public String resourceEnvRefName() {
+    public String envEntryName() {
         String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "resource-env-ref-name"))
+        return element.childElementStream(hasName(ns, "env-entry-name"))
                 .findFirst()
                 .orElseThrow()
                 .text();
     }
 
-    public Optional<String> resourceEnvRefTypeOption() {
+    public Optional<String> envEntryTypeOption() {
         String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "resource-env-ref-type"))
+        return element.childElementStream(hasName(ns, "env-entry-type"))
+                .findFirst()
+                .map(ElementTree.Element::text);
+    }
+
+    public Optional<String> envEntryValueOption() {
+        String ns = element.elementName().getNamespaceURI();
+        return element.childElementStream(hasName(ns, "env-entry-value"))
                 .findFirst()
                 .map(ElementTree.Element::text);
     }

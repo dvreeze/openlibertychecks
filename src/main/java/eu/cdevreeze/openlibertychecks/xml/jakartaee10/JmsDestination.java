@@ -17,6 +17,7 @@
 package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 
 import javax.xml.namespace.QName;
@@ -25,17 +26,17 @@ import java.util.Optional;
 import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
 
 /**
- * Resource reference XML element wrapper.
+ * JMS Destination XML element wrapper.
  *
  * @author Chris de Vreeze
  */
-public final class ResourceRef implements JakartaEEXmlContent {
+public final class JmsDestination implements JakartaEEXmlContent {
 
     private final ElementTree.Element element;
 
-    public ResourceRef(ElementTree.Element element) {
+    public JmsDestination(ElementTree.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
-        Preconditions.checkArgument(element.elementName().getLocalPart().equals("resource-ref"));
+        Preconditions.checkArgument(element.elementName().getLocalPart().equals("jms-destination"));
 
         this.element = element;
     }
@@ -48,26 +49,50 @@ public final class ResourceRef implements JakartaEEXmlContent {
         return element.attributeOption(new QName("id"));
     }
 
-    public String resRefName() {
+    /**
+     * Returns the JNDI name
+     */
+    public String name() {
         String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "res-ref-name"))
+        return element.childElementStream(hasName(ns, "name"))
                 .findFirst()
                 .orElseThrow()
                 .text();
     }
 
-    public Optional<String> resTypeOption() {
+    public String interfaceName() {
         String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "res-type"))
+        return element.childElementStream(hasName(ns, "interface-name"))
+                .findFirst()
+                .orElseThrow()
+                .text();
+    }
+
+    public Optional<String> classNameOption() {
+        String ns = element.elementName().getNamespaceURI();
+        return element.childElementStream(hasName(ns, "class-name"))
                 .findFirst()
                 .map(ElementTree.Element::text);
     }
 
-    public Optional<ResAuthType> resAuthOption() {
+    public Optional<String> resourceAdapterOption() {
         String ns = element.elementName().getNamespaceURI();
-        return element.childElementStream(hasName(ns, "res-auth"))
+        return element.childElementStream(hasName(ns, "resource-adapter"))
                 .findFirst()
-                .map(ElementTree.Element::text)
-                .map(ResAuthType::valueOf);
+                .map(ElementTree.Element::text);
+    }
+
+    public Optional<String> destinationNameOption() {
+        String ns = element.elementName().getNamespaceURI();
+        return element.childElementStream(hasName(ns, "destination-name"))
+                .findFirst()
+                .map(ElementTree.Element::text);
+    }
+
+    public ImmutableList<Property> properties() {
+        String ns = element.elementName().getNamespaceURI();
+        return element.childElementStream(hasName(ns, "property"))
+                .map(Property::new)
+                .collect(ImmutableList.toImmutableList());
     }
 }

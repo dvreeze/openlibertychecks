@@ -19,6 +19,7 @@ package eu.cdevreeze.openlibertychecks.console;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import eu.cdevreeze.openlibertychecks.console.internal.XmlRootElementFinder;
 import eu.cdevreeze.openlibertychecks.reflection.internal.ClassPathScanning;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.JndiEntry;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.Server;
@@ -26,20 +27,16 @@ import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ResourceRef;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
 import eu.cdevreeze.yaidom4j.core.NamespaceScope;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.immutabledom.Comment;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Element;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Node;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.NodeBuilder;
-import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParser;
-import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentPrinter;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentPrinters;
 import jakarta.annotation.Resource;
 
 import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.lang.reflect.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -132,6 +129,11 @@ public class FindResourcesInWar {
                     "annotation",
                     ImmutableMap.of("annotationType", Resource.class.toString()),
                     ImmutableList.of(
+                            new Comment("""
+                                    Name is the JNDI name, for fields defaulting to the field name,
+                                    and for methods defaulting to the JavaBeans property name corresponding to the annotated method
+                                    """.strip()
+                            ),
                             nb.textElement("name", resourceAnnotation().name()),
                             nb.textElement("description", resourceAnnotation().description()),
                             nb.textElement("shareable", String.valueOf(resourceAnnotation().shareable())),
@@ -285,40 +287,18 @@ public class FindResourcesInWar {
     }
 
     private static List<ElementTree.Element> findWebXmlRootElements(Path dir) {
-        DocumentParser docParser = DocumentParsers.builder().removingInterElementWhitespace().build();
-
-        try (Stream<Path> fileStream = Files.walk(dir)) {
-            return fileStream
-                    .filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().toString().endsWith(".xml"))
-                    .map(p ->
-                            Document.from(docParser.parse(p.toUri()))
-                                    .withUri(dir.toUri())
-                                    .documentElement()
-                    )
-                    .filter(e -> e.name().equals(Names.JAKARTAEE_WEBAPP_NAME))
-                    .toList();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        return XmlRootElementFinder.findXmlRootElements(
+                dir,
+                p -> p.getFileName().toString().endsWith(".xml"),
+                e -> e.name().equals(Names.JAKARTAEE_WEBAPP_NAME)
+        );
     }
 
     private static List<ElementTree.Element> findServerXmlRootElements(Path dir) {
-        DocumentParser docParser = DocumentParsers.builder().removingInterElementWhitespace().build();
-
-        try (Stream<Path> fileStream = Files.walk(dir)) {
-            return fileStream
-                    .filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().toString().endsWith(".xml"))
-                    .map(p ->
-                            Document.from(docParser.parse(p.toUri()))
-                                    .withUri(dir.toUri())
-                                    .documentElement()
-                    )
-                    .filter(e -> e.name().equals(new QName("server")))
-                    .toList();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        return XmlRootElementFinder.findXmlRootElements(
+                dir,
+                p -> p.getFileName().toString().endsWith(".xml"),
+                e -> e.name().equals(new QName("server"))
+        );
     }
 }
