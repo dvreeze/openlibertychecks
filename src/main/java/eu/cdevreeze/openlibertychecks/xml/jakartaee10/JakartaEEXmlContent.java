@@ -20,6 +20,8 @@ import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 
 /**
  * Any XML element in a standard Jakarta EE XML configuration file that gets its own class.
+ * <p>
+ * For the related XML schemas, see <a href="https://jakarta.ee/xml/ns/jakartaee/">Jakarta EE XML Schemas</a>.
  *
  * @author Chris de Vreeze
  */

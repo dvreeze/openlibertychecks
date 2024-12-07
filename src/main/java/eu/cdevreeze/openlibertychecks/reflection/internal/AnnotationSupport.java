@@ -17,9 +17,7 @@
 package eu.cdevreeze.openlibertychecks.reflection.internal;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Optional;
 
 /**
@@ -32,59 +30,23 @@ public class AnnotationSupport {
     private AnnotationSupport() {
     }
 
+    /**
+     * Returns the result of method "getDeclaredAnnotation", wrapped in an "Optional".
+     */
     public static <T extends Annotation> Optional<T> findDeclaredAnnotation(
-            Class<?> clazz,
+            AnnotatedElement annotatedElement,
             Class<T> annotationClass
     ) {
-        return Optional.ofNullable(clazz.getDeclaredAnnotation(annotationClass));
+        return Optional.ofNullable(annotatedElement.getDeclaredAnnotation(annotationClass));
     }
 
+    /**
+     * Returns the result of method "getAnnotation", wrapped in an "Optional".
+     */
     public static <T extends Annotation> Optional<T> findAnnotation(
-            Class<?> clazz,
+            AnnotatedElement annotatedElement,
             Class<T> annotationClass
     ) {
-        return Optional.ofNullable(clazz.getAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findDeclaredAnnotation(
-            Constructor<?> constructor,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(constructor.getDeclaredAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findAnnotation(
-            Constructor<?> constructor,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(constructor.getAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findDeclaredAnnotation(
-            Field field,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(field.getDeclaredAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findAnnotation(
-            Field field,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(field.getAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findDeclaredAnnotation(
-            Method method,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(method.getDeclaredAnnotation(annotationClass));
-    }
-
-    public static <T extends Annotation> Optional<T> findAnnotation(
-            Method method,
-            Class<T> annotationClass
-    ) {
-        return Optional.ofNullable(method.getAnnotation(annotationClass));
+        return Optional.ofNullable(annotatedElement.getAnnotation(annotationClass));
     }
 }

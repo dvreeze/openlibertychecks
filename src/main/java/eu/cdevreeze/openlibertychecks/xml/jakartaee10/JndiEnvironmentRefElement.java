@@ -18,6 +18,11 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 /**
  * Any JNDI environment reference XML element in a standard Jakarta EE XML configuration file that gets its own class.
+ * <p>
+ * Most applications do not need to specify any JNDI resources in a deployment descriptor.
+ * Instead, most applications use a "Resource" annotation for that purpose. Even then, JNDI environment
+ * references in deployment descriptors (such as ejb-jar.xml) can be used to override the annotations,
+ * enabling repackaging instead of recompilation combined with repackaging.
  *
  * @author Chris de Vreeze
  */
