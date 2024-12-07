@@ -42,6 +42,8 @@ public class XmlRootElementFinder {
     /**
      * Finds all XML file root elements of XML files under the given search root directory,
      * matching the given XML file predicate, and matching the given root element predicate.
+     * <p>
+     * Matching files that cannot be parsed as XML files are silently ignored, "eating the exception".
      */
     public static ImmutableList<ElementTree.Element> findXmlRootElements(
             Path dir,
@@ -54,11 +56,17 @@ public class XmlRootElementFinder {
             return fileStream
                     .filter(Files::isRegularFile)
                     .filter(xmlFilePredicate)
-                    .map(p ->
-                            Document.from(docParser.parse(p.toUri()))
+                    .flatMap(p -> {
+                        try {
+                            ElementTree.Element rootElem = Document.from(docParser.parse(p.toUri()))
                                     .withUri(dir.toUri())
-                                    .documentElement()
-                    )
+                                    .documentElement();
+                            return Stream.of(rootElem);
+                        } catch (RuntimeException e) {
+                            // Ignoring the exception
+                            return Stream.empty();
+                        }
+                    })
                     .filter(rootElementPredicate)
                     .collect(ImmutableList.toImmutableList());
         } catch (IOException e) {
