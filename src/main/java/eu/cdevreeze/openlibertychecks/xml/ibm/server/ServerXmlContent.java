@@ -21,7 +21,7 @@ import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 /**
  * Any XML element in a server.xml file that gets its own class.
  * <p>
- * For an explanation of server.xml content (with variable substitution, include processing etc.), see
+ * For an explanation of server.xml content (with variable substitution, include processing, merging etc.), see
  * <a href="https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html">Server Configuration Overview</a>.
  *
  * @author Chris de Vreeze
