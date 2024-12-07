@@ -53,6 +53,9 @@ public final class ResourceRef implements JndiEnvironmentRefElement {
         return resRefName();
     }
 
+    /**
+     * Returns the JNDI name relative to the java:comp/env context.
+     */
     public String resRefName() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "res-ref-name"))

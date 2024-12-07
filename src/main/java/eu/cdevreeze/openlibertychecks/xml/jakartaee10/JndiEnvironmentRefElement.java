@@ -29,7 +29,7 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 public interface JndiEnvironmentRefElement extends JakartaEEXmlContent {
 
     /**
-     * Returns the JNDI name
+     * Returns the JNDI name, which may or may not correspond to the text of a "jakartaee:name" child element.
      */
     String name();
 }

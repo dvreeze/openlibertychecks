@@ -53,6 +53,9 @@ public final class EnvEntry implements JndiEnvironmentRefElement {
         return envEntryName();
     }
 
+    /**
+     * Returns the JNDI name relative to the java:comp/env context.
+     */
     public String envEntryName() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "env-entry-name"))
