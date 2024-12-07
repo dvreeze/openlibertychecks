@@ -52,8 +52,9 @@ import static eu.cdevreeze.openlibertychecks.reflection.jakartaee10.CommonJakart
 
 /**
  * Program finding the resources in an extracted WAR file directory.
- * These resources may occur as Resource-annotated code or resources in XML configuration files.
- * The resources are compared with the contents of OpenLiberty configuration files.
+ * These resources may occur as Resource-annotated code or "resources" in XML configuration files.
+ * The resources are shown along with the contents of OpenLiberty configuration files, thus enabling
+ * comparisons of these sets of "resource" data.
  * <p>
  * To run this program, first complete the class path for running. For example, obtain (most of) the class path
  * from the analysed project by running command "mvn dependency:build-classpath", for example.
@@ -68,6 +69,9 @@ import static eu.cdevreeze.openlibertychecks.reflection.jakartaee10.CommonJakart
  * @author Chris de Vreeze
  */
 public class FindResourcesInWar {
+
+    // Note that we ignore annotations such as DataSourceDefinition, JmsDestinationDefinition,
+    // but also annotations like JmsConnectionFactory etc.
 
     public record ResourceAnnotationInfo(
             AnnotatedElement annotatedElement,
