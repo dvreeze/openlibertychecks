@@ -26,7 +26,8 @@ import eu.cdevreeze.openlibertychecks.xml.ibm.server.Server;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiEnvironmentRefElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.factories.DeploymentDescriptorRootElements;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.factories.JndiResourceContainerElements;
 import eu.cdevreeze.yaidom4j.core.NamespaceScope;
 import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Comment;
@@ -180,7 +181,7 @@ public class FindResourcesInWar {
                         .collect(ImmutableList.toImmutableList())
         );
 
-        ImmutableList<Node> jndiEnvironmentRefs = findJndiEnvironmentRefsInWebXmlFiles(otherDirs)
+        ImmutableList<Node> jndiEnvironmentRefs = findJndiEnvironmentRefsInDeploymentDescriptors(otherDirs)
                 .stream()
                 .map(e ->
                         nb.element(
@@ -223,13 +224,22 @@ public class FindResourcesInWar {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static List<JndiEnvironmentRefElement> findJndiEnvironmentRefsInWebXmlFiles(List<Path> dirs) {
-        List<ElementTree.Element> webXmlRoots = dirs.stream()
-                .flatMap(dir -> findWebXmlRootElements(dir).stream())
+    public static List<JndiEnvironmentRefElement> findJndiEnvironmentRefsInDeploymentDescriptors(List<Path> dirs) {
+        List<ElementTree.Element> deploymentDescriptorRoots = dirs.stream()
+                .flatMap(dir ->
+                        Stream.concat(
+                                findWebXmlRootElements(dir).stream(),
+                                findEjbJarXmlRootElements(dir).stream()
+                        )
+                )
                 .toList();
 
-        return webXmlRoots.stream()
-                .map(WebApp::new)
+        return deploymentDescriptorRoots.stream()
+                .map(DeploymentDescriptorRootElements::newInstance)
+                .flatMap(e -> e.getElement()
+                        .elementStream()
+                        .flatMap(e2 -> JndiResourceContainerElements.optionalInstance(e2).stream())
+                )
                 .flatMap(e -> JndiResourceContainerElement.findJndiEnvironmentRefElements(e).stream())
                 .toList();
     }
@@ -292,6 +302,14 @@ public class FindResourcesInWar {
                 dir,
                 p -> p.getFileName().toString().endsWith(".xml"),
                 e -> e.name().equals(Names.JAKARTAEE_WEBAPP_NAME)
+        );
+    }
+
+    private static List<ElementTree.Element> findEjbJarXmlRootElements(Path dir) {
+        return XmlRootElementFinder.findXmlRootElements(
+                dir,
+                p -> p.getFileName().toString().endsWith(".xml"),
+                e -> e.name().equals(Names.JAKARTAEE_EJBJAR_NAME)
         );
     }
 

@@ -31,4 +31,10 @@ public class Names {
     public static final String JAKARTAEE_NS = "https://jakarta.ee/xml/ns/jakartaee";
 
     public static final QName JAKARTAEE_WEBAPP_NAME = new QName(JAKARTAEE_NS, "web-app");
+    public static final QName JAKARTAEE_EJBJAR_NAME = new QName(JAKARTAEE_NS, "ejb-jar");
+
+    public static final QName JAKARTAEE_ENTITY_NAME = new QName(JAKARTAEE_NS, "entity");
+    public static final QName JAKARTAEE_SESSION_NAME = new QName(JAKARTAEE_NS, "session");
+    public static final QName JAKARTAEE_MESSAGE_DRIVEN_NAME = new QName(JAKARTAEE_NS, "message-driven");
+    public static final QName JAKARTAEE_INTERCEPTOR_NAME = new QName(JAKARTAEE_NS, "interceptor");
 }

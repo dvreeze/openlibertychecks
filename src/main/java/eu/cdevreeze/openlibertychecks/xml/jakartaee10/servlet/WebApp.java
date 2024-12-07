@@ -18,6 +18,7 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import eu.cdevreeze.openlibertychecks.xml.jakartaee10.DeploymentDescriptorRootElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Listener;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
@@ -30,7 +31,7 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  *
  * @author Chris de Vreeze
  */
-public final class WebApp implements WebXmlContent, JndiResourceContainerElement {
+public final class WebApp implements WebXmlContent, DeploymentDescriptorRootElement, JndiResourceContainerElement {
 
     private final ElementTree.Element element;
 
