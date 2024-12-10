@@ -21,8 +21,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import eu.cdevreeze.openlibertychecks.console.internal.XmlRootElementFinder;
 import eu.cdevreeze.openlibertychecks.reflection.internal.ClassPathScanning;
-import eu.cdevreeze.openlibertychecks.xml.ibm.server.JndiEntry;
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.Server;
+import eu.cdevreeze.openlibertychecks.xml.ibm.server.ServerXmlJndiResource;
+import eu.cdevreeze.openlibertychecks.xml.ibm.server.factories.ServerXmlJndiResources;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiEnvironmentRefElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.JndiResourceContainerElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
@@ -185,7 +186,9 @@ public class FindResourcesInWar {
                         .collect(ImmutableList.toImmutableList())
         );
 
-        ImmutableList<Node> jndiEnvironmentRefs = findJndiEnvironmentRefsInDeploymentDescriptors(otherDirs)
+        ImmutableList<Path> allDirs = ImmutableList.<Path>builder().add(warDir).addAll(otherDirs).build();
+
+        ImmutableList<Node> jndiEnvironmentRefs = findJndiEnvironmentRefsInDeploymentDescriptors(allDirs)
                 .stream()
                 .map(e ->
                         nb.element(
@@ -196,11 +199,11 @@ public class FindResourcesInWar {
                 )
                 .collect(ImmutableList.toImmutableList());
 
-        ImmutableList<Node> jndiEntries = findJndiEntriesInServerXmlFiles(otherDirs)
+        ImmutableList<Node> serverXmlJndiResources = findJndiResourcesInServerXmlFiles(otherDirs)
                 .stream()
                 .map(e ->
                         nb.element(
-                                        "jndiEntry",
+                                        "serverXmlJndiResource",
                                         ImmutableMap.of("doc", e.getElement().docUriOption().map(java.net.URI::toString).orElse(""))
                                 )
                                 .plusChild(e.getElement().underlyingNode())
@@ -213,7 +216,7 @@ public class FindResourcesInWar {
                         nb.element("jndiEnvironmentRefs").withChildren(jndiEnvironmentRefs)
                 )
                 .plusChild(
-                        nb.element("jndiEntries").withChildren(jndiEntries)
+                        nb.element("serverXmlJndiResources").withChildren(serverXmlJndiResources)
                 );
     }
 
@@ -248,14 +251,17 @@ public class FindResourcesInWar {
                 .toList();
     }
 
-    public static List<JndiEntry> findJndiEntriesInServerXmlFiles(List<Path> dirs) {
+    public static List<ServerXmlJndiResource> findJndiResourcesInServerXmlFiles(List<Path> dirs) {
         List<ElementTree.Element> serverXmlRoots = dirs.stream()
                 .flatMap(dir -> findServerXmlRootElements(dir).stream())
                 .toList();
 
         return serverXmlRoots.stream()
                 .map(Server::new)
-                .flatMap(e -> e.jndiEntries().stream())
+                .flatMap(e ->
+                        e.getElement().childElementStream()
+                                .flatMap(che -> ServerXmlJndiResources.optionalInstance(che).stream())
+                )
                 .toList();
     }
 

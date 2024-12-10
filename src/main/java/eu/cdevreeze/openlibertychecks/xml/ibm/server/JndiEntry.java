@@ -27,7 +27,7 @@ import java.util.Optional;
  *
  * @author Chris de Vreeze
  */
-public final class JndiEntry implements ServerXmlContent {
+public final class JndiEntry implements ServerXmlJndiResource {
 
     private final ElementTree.Element element;
 
@@ -46,6 +46,11 @@ public final class JndiEntry implements ServerXmlContent {
 
     public String jndiName() {
         return element.attribute(new QName("jndiName"));
+    }
+
+    @Override
+    public Optional<String> jndiNameOption() {
+        return Optional.of(jndiName());
     }
 
     public String value() {
