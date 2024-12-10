@@ -199,6 +199,13 @@ public class FindResourcesInWar {
                 )
                 .collect(ImmutableList.toImmutableList());
 
+        ImmutableList<Node> enabledFeaturesInServerXmlFiles = findEnabledFeaturesInServerXmlFiles(otherDirs)
+                .stream()
+                .map(v ->
+                        nb.textElement("enabledFeature", v)
+                )
+                .collect(ImmutableList.toImmutableList());
+
         ImmutableList<Node> serverXmlJndiResources = findJndiResourcesInServerXmlFiles(otherDirs)
                 .stream()
                 .map(e ->
@@ -214,6 +221,9 @@ public class FindResourcesInWar {
                 .plusChild(resourceAnnotationsElement)
                 .plusChild(
                         nb.element("jndiEnvironmentRefs").withChildren(jndiEnvironmentRefs)
+                )
+                .plusChild(
+                        nb.element("serverXmlEnabledFeatures").withChildren(enabledFeaturesInServerXmlFiles)
                 )
                 .plusChild(
                         nb.element("serverXmlJndiResources").withChildren(serverXmlJndiResources)
@@ -248,6 +258,18 @@ public class FindResourcesInWar {
                         .flatMap(e2 -> JndiResourceContainerElements.optionalInstance(e2).stream())
                 )
                 .flatMap(e -> JndiResourceContainerElement.findJndiEnvironmentRefElements(e).stream())
+                .toList();
+    }
+
+    public static List<String> findEnabledFeaturesInServerXmlFiles(List<Path> dirs) {
+        List<ElementTree.Element> serverXmlRoots = dirs.stream()
+                .flatMap(dir -> findServerXmlRootElements(dir).stream())
+                .toList();
+
+        return serverXmlRoots.stream()
+                .map(Server::new)
+                .flatMap(e -> e.featureManagers().stream())
+                .flatMap(e -> e.features().stream())
                 .toList();
     }
 
