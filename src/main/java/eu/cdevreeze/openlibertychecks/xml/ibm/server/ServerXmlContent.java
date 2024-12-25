@@ -16,7 +16,7 @@
 
 package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 /**
  * Any XML element in a server.xml file that gets its own class.
@@ -28,5 +28,5 @@ import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
  */
 public interface ServerXmlContent {
 
-    ElementTree.Element getElement();
+    AncestryAwareNodes.Element getElement();
 }

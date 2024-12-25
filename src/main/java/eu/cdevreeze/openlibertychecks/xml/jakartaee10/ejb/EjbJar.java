@@ -19,11 +19,11 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb;
 import com.google.common.base.Preconditions;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.DeploymentDescriptorRootElement;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * EJB Jar XML element wrapper. Corresponds to the contents of an ejb-jar.xml file.
@@ -35,16 +35,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class EjbJar implements EjbJarXmlContent, DeploymentDescriptorRootElement {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public EjbJar(ElementTree.Element element) {
+    public EjbJar(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("ejb-jar"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -79,7 +79,7 @@ public final class EjbJar implements EjbJarXmlContent, DeploymentDescriptorRootE
     public Optional<String> ejbClientJarOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "ejb-client-jar"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .findFirst();
     }
 }

@@ -21,7 +21,7 @@ import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.AssemblyDescriptor;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.EjbJar;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.SessionBean;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.SessionType;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareDocument;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -44,9 +44,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EjbJarDialectTests {
 
-    private Document parseDocument() {
+    private AncestryAwareDocument parseDocument() {
         InputStream inputStream = EjbJarDialectTests.class.getResourceAsStream("/dialects/sample-ejb-jar.xml");
-        return Document.from(
+        return AncestryAwareDocument.from(
                 DocumentParsers.builder().removingInterElementWhitespace().build()
                         .parse(new InputSource(inputStream))
         );
@@ -54,7 +54,7 @@ public class EjbJarDialectTests {
 
     @Test
     public void testEjbJarXmlParsing() {
-        Document doc = parseDocument();
+        AncestryAwareDocument doc = parseDocument();
 
         EjbJar ejbJar = new EjbJar(doc.documentElement());
 

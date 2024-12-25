@@ -16,7 +16,7 @@
 
 package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 /**
  * Any XML element in a standard Jakarta EE XML configuration file that gets its own class.
@@ -27,5 +27,5 @@ import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
  */
 public interface JakartaEEXmlContent {
 
-    ElementTree.Element getElement();
+    AncestryAwareNodes.Element getElement();
 }

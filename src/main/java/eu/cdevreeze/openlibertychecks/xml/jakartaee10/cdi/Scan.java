@@ -19,9 +19,9 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.cdi;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Scan XML element wrapper.
@@ -30,16 +30,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class Scan implements BeansXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public Scan(ElementTree.Element element) {
+    public Scan(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("scan"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 

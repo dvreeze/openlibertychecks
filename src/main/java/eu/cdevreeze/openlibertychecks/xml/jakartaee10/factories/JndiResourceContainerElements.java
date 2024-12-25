@@ -23,7 +23,7 @@ import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.Interceptor;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.MessageDrivenBean;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.SessionBean;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import java.util.Optional;
 
@@ -34,7 +34,7 @@ import java.util.Optional;
  */
 public class JndiResourceContainerElements {
 
-    public static Optional<JndiResourceContainerElement> optionalInstance(ElementTree.Element element) {
+    public static Optional<JndiResourceContainerElement> optionalInstance(AncestryAwareNodes.Element element) {
         if (element.name().equals(Names.JAKARTAEE_WEBAPP_NAME)) {
             return Optional.of(new WebApp(element));
         } else if (element.name().equals(Names.JAKARTAEE_ENTITY_NAME)) {
@@ -50,7 +50,7 @@ public class JndiResourceContainerElements {
         }
     }
 
-    public static JndiResourceContainerElement newInstance(ElementTree.Element element) {
+    public static JndiResourceContainerElement newInstance(AncestryAwareNodes.Element element) {
         return optionalInstance(element).orElseThrow();
     }
 }

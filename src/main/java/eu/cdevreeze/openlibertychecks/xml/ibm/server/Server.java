@@ -18,12 +18,12 @@ package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Root element of an OpenLiberty server.xml file.
@@ -37,14 +37,14 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class Server implements ServerXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public Server(ElementTree.Element element) {
+    public Server(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("server"));
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 

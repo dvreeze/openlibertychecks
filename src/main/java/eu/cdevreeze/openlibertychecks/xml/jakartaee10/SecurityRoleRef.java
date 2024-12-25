@@ -17,12 +17,12 @@
 package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 import com.google.common.base.Preconditions;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Security role reference XML element wrapper.
@@ -31,15 +31,15 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class SecurityRoleRef implements JakartaEEXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public SecurityRoleRef(ElementTree.Element element) {
+    public SecurityRoleRef(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -61,6 +61,6 @@ public final class SecurityRoleRef implements JakartaEEXmlContent {
         return element
                 .childElementStream(hasName(ns, "role-link"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 }

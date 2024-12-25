@@ -18,12 +18,12 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb;
 
 import com.google.common.base.Preconditions;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Method XML element wrapper.
@@ -32,16 +32,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class Method implements EjbJarXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public Method(ElementTree.Element element) {
+    public Method(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("method"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -61,7 +61,7 @@ public final class Method implements EjbJarXmlContent {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "method-intf"))
                 .findFirst()
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .map(MethodIntfType::valueOf);
     }
 

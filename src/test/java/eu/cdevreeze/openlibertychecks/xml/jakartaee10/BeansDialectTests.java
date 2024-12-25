@@ -18,7 +18,7 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 import com.google.common.collect.ImmutableList;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.cdi.*;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareDocument;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -41,9 +41,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BeansDialectTests {
 
-    private Document parseDocument() {
+    private AncestryAwareDocument parseDocument() {
         InputStream inputStream = BeansDialectTests.class.getResourceAsStream("/dialects/sample-beans.xml");
-        return Document.from(
+        return AncestryAwareDocument.from(
                 DocumentParsers.builder().removingInterElementWhitespace().build()
                         .parse(new InputSource(inputStream))
         );
@@ -51,7 +51,7 @@ public class BeansDialectTests {
 
     @Test
     public void testBeansXmlParsing() {
-        Document doc = parseDocument();
+        AncestryAwareDocument doc = parseDocument();
 
         Beans beans = new Beans(doc.documentElement());
 

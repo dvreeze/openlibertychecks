@@ -20,7 +20,7 @@ import eu.cdevreeze.openlibertychecks.xml.jakartaee10.DeploymentDescriptorRootEl
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.ejb.EjbJar;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 public class DeploymentDescriptorRootElements {
 
-    public static Optional<DeploymentDescriptorRootElement> optionalInstance(ElementTree.Element element) {
+    public static Optional<DeploymentDescriptorRootElement> optionalInstance(AncestryAwareNodes.Element element) {
         if (element.name().equals(Names.JAKARTAEE_WEBAPP_NAME)) {
             return Optional.of(new WebApp(element));
         } else if (element.name().equals(Names.JAKARTAEE_EJBJAR_NAME)) {
@@ -41,7 +41,7 @@ public class DeploymentDescriptorRootElements {
         }
     }
 
-    public static DeploymentDescriptorRootElement newInstance(ElementTree.Element element) {
+    public static DeploymentDescriptorRootElement newInstance(AncestryAwareNodes.Element element) {
         return optionalInstance(element).orElseThrow();
     }
 }

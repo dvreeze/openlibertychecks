@@ -18,12 +18,12 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet;
 
 import com.google.common.base.Preconditions;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Error page XML element wrapper.
@@ -32,16 +32,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class ErrorPage implements WebXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public ErrorPage(ElementTree.Element element) {
+    public ErrorPage(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("error-page"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -53,14 +53,14 @@ public final class ErrorPage implements WebXmlContent {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "error-code"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public Optional<String> exceptionTypeOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "exception-type"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public String location() {

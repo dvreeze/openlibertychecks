@@ -19,13 +19,13 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 import eu.cdevreeze.yaidom4j.queryapi.ElementApi;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Filter mapping XML element wrapper.
@@ -38,16 +38,16 @@ public final class FilterMapping implements WebXmlContent {
         FORWARD, INCLUDE, REQUEST, ASYNC, ERROR
     }
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public FilterMapping(ElementTree.Element element) {
+    public FilterMapping(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("filter-mapping"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 

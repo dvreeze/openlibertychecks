@@ -19,7 +19,7 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.Filter;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.FilterMapping;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.servlet.WebApp;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareDocument;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -29,7 +29,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -42,9 +42,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ServletDialectTests {
 
-    private Document parseDocument() {
+    private AncestryAwareDocument parseDocument() {
         InputStream inputStream = ServletDialectTests.class.getResourceAsStream("/dialects/sample-web.xml");
-        return Document.from(
+        return AncestryAwareDocument.from(
                 DocumentParsers.builder().removingInterElementWhitespace().build()
                         .parse(new InputSource(inputStream))
         );
@@ -52,7 +52,7 @@ public class ServletDialectTests {
 
     @Test
     public void testWebAppParsing() {
-        Document doc = parseDocument();
+        AncestryAwareDocument doc = parseDocument();
 
         WebApp webApp = new WebApp(doc.documentElement());
 

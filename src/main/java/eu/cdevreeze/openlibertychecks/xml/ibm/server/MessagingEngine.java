@@ -18,12 +18,12 @@ package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Element named "messagingEngine" in a server.xml file.
@@ -32,14 +32,14 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class MessagingEngine implements ServerXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public MessagingEngine(ElementTree.Element element) {
+    public MessagingEngine(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("messagingEngine"));
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -51,9 +51,9 @@ public final class MessagingEngine implements ServerXmlContent {
 
     public static final class Queue implements ServerXmlContent {
 
-        private final ElementTree.Element element;
+        private final AncestryAwareNodes.Element element;
 
-        public Queue(ElementTree.Element element) {
+        public Queue(AncestryAwareNodes.Element element) {
             Preconditions.checkArgument(element.elementName().getLocalPart().equals("queue"));
             Preconditions.checkArgument(element.parentElementOption().isPresent());
             Preconditions.checkArgument(
@@ -62,7 +62,7 @@ public final class MessagingEngine implements ServerXmlContent {
             this.element = element;
         }
 
-        public ElementTree.Element getElement() {
+        public AncestryAwareNodes.Element getElement() {
             return element;
         }
 

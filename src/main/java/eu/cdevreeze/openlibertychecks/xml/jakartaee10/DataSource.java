@@ -18,13 +18,13 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Data source XML element wrapper.
@@ -33,16 +33,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class DataSource implements JndiEnvironmentRefElement {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public DataSource(ElementTree.Element element) {
+    public DataSource(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("data-source"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -65,20 +65,20 @@ public final class DataSource implements JndiEnvironmentRefElement {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "class-name"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public Optional<String> serverNameOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "server-name"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public OptionalInt portNumberOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "port-number"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -87,28 +87,28 @@ public final class DataSource implements JndiEnvironmentRefElement {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "database-name"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public Optional<String> urlOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "url"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public Optional<String> userOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "user"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public Optional<String> passwordOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "password"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 
     public ImmutableList<Property> properties() {
@@ -121,7 +121,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt loginTimeoutOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "login-timeout"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -130,14 +130,14 @@ public final class DataSource implements JndiEnvironmentRefElement {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "transactional"))
                 .findFirst()
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .map(Boolean::valueOf);
     }
 
     public Optional<IsolationLevel> isolationLevelOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "isolation-level"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .map(IsolationLevel::valueOf)
                 .findFirst();
     }
@@ -145,7 +145,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt initialPoolSizeOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "initial-pool-size"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -153,7 +153,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt maxPoolSizeOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "max-pool-size"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -161,7 +161,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt minPoolSizeOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "min-pool-size"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -169,7 +169,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt maxIdleTimeOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "max-idle-time"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }
@@ -177,7 +177,7 @@ public final class DataSource implements JndiEnvironmentRefElement {
     public OptionalInt maxStatementsOption() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "max-statements"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .mapToInt(Integer::parseInt)
                 .findFirst();
     }

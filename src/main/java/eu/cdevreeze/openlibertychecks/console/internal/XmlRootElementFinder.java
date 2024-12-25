@@ -17,8 +17,8 @@
 package eu.cdevreeze.openlibertychecks.console.internal;
 
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareDocument;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParser;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 
@@ -45,10 +45,10 @@ public class XmlRootElementFinder {
      * <p>
      * Matching files that cannot be parsed as XML files are silently ignored, "eating the exception".
      */
-    public static ImmutableList<ElementTree.Element> findXmlRootElements(
+    public static ImmutableList<AncestryAwareNodes.Element> findXmlRootElements(
             Path dir,
             Predicate<Path> xmlFilePredicate,
-            Predicate<ElementTree.Element> rootElementPredicate
+            Predicate<AncestryAwareNodes.Element> rootElementPredicate
     ) {
         DocumentParser docParser = DocumentParsers.builder().removingInterElementWhitespace().build();
 
@@ -58,7 +58,7 @@ public class XmlRootElementFinder {
                     .filter(xmlFilePredicate)
                     .flatMap(p -> {
                         try {
-                            ElementTree.Element rootElem = Document.from(docParser.parse(p.toUri()))
+                            AncestryAwareNodes.Element rootElem = AncestryAwareDocument.from(docParser.parse(p.toUri()))
                                     .withUri(dir.toUri())
                                     .documentElement();
                             return Stream.of(rootElem);

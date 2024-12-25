@@ -17,7 +17,7 @@
 package eu.cdevreeze.openlibertychecks.xml.ibm.server.factories;
 
 import eu.cdevreeze.openlibertychecks.xml.ibm.server.*;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
@@ -29,7 +29,7 @@ import java.util.Optional;
  */
 public class ServerXmlJndiResources {
 
-    public static Optional<ServerXmlJndiResource> optionalInstance(ElementTree.Element element) {
+    public static Optional<ServerXmlJndiResource> optionalInstance(AncestryAwareNodes.Element element) {
         if (element.name().equals(new QName("dataSource"))) {
             return Optional.of(new DataSource(element));
         } else if (element.name().equals(new QName("jmsConnectionFactory"))) {
@@ -49,7 +49,7 @@ public class ServerXmlJndiResources {
         }
     }
 
-    public static ServerXmlJndiResource newInstance(ElementTree.Element element) {
+    public static ServerXmlJndiResource newInstance(AncestryAwareNodes.Element element) {
         return optionalInstance(element).orElseThrow();
     }
 }

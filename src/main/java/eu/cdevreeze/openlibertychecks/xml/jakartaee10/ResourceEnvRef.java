@@ -17,12 +17,12 @@
 package eu.cdevreeze.openlibertychecks.xml.jakartaee10;
 
 import com.google.common.base.Preconditions;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Resource reference XML element wrapper.
@@ -31,16 +31,16 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class ResourceEnvRef implements JndiEnvironmentRefElement {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public ResourceEnvRef(ElementTree.Element element) {
+    public ResourceEnvRef(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("resource-env-ref"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -68,6 +68,6 @@ public final class ResourceEnvRef implements JndiEnvironmentRefElement {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "resource-env-ref-type"))
                 .findFirst()
-                .map(ElementTree.Element::text);
+                .map(AncestryAwareNodes.Element::text);
     }
 }

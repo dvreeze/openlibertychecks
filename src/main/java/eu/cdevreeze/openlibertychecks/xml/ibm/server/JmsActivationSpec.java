@@ -17,7 +17,7 @@
 package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.base.Preconditions;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
@@ -29,14 +29,14 @@ import java.util.Optional;
  */
 public final class JmsActivationSpec implements ServerXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public JmsActivationSpec(ElementTree.Element element) {
+    public JmsActivationSpec(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("jmsActivationSpec"));
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 

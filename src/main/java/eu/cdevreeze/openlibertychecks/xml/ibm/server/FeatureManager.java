@@ -18,9 +18,9 @@ package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Element named "featureManager" in a server.xml file.
@@ -29,20 +29,20 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class FeatureManager implements ServerXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public FeatureManager(ElementTree.Element element) {
+    public FeatureManager(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("featureManager"));
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
     public ImmutableList<String> features() {
         return element.childElementStream(hasName("feature"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .collect(ImmutableList.toImmutableList());
     }
 }

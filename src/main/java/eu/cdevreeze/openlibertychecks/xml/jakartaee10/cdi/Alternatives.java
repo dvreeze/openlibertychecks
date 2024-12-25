@@ -19,9 +19,9 @@ package eu.cdevreeze.openlibertychecks.xml.jakartaee10.cdi;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Alternatives XML element wrapper.
@@ -30,30 +30,30 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class Alternatives implements BeansXmlContent {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public Alternatives(ElementTree.Element element) {
+    public Alternatives(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(Names.JAKARTAEE_NS.equals(element.elementName().getNamespaceURI()));
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("alternatives"));
 
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
     public ImmutableList<String> classes() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "class"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .collect(ImmutableList.toImmutableList());
     }
 
     public ImmutableList<String> stereotypes() {
         String ns = element.elementName().getNamespaceURI();
         return element.childElementStream(hasName(ns, "stereotype"))
-                .map(ElementTree.Element::text)
+                .map(AncestryAwareNodes.Element::text)
                 .collect(ImmutableList.toImmutableList());
     }
 }

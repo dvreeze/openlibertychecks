@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableList;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Any container of JNDI environment references, such as EJBs, the web-app root element etc.

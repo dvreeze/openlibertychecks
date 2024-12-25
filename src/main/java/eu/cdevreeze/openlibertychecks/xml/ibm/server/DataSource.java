@@ -18,13 +18,13 @@ package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 
 import javax.xml.namespace.QName;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 
 /**
  * Element named "dataSource" in a server.xml file.
@@ -33,14 +33,14 @@ import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
  */
 public final class DataSource implements ServerXmlJndiResource {
 
-    private final ElementTree.Element element;
+    private final AncestryAwareNodes.Element element;
 
-    public DataSource(ElementTree.Element element) {
+    public DataSource(AncestryAwareNodes.Element element) {
         Preconditions.checkArgument(element.elementName().getLocalPart().equals("dataSource"));
         this.element = element;
     }
 
-    public ElementTree.Element getElement() {
+    public AncestryAwareNodes.Element getElement() {
         return element;
     }
 
@@ -75,9 +75,9 @@ public final class DataSource implements ServerXmlJndiResource {
 
     public static final class Properties implements ServerXmlContent {
 
-        private final ElementTree.Element element;
+        private final AncestryAwareNodes.Element element;
 
-        public Properties(ElementTree.Element element) {
+        public Properties(AncestryAwareNodes.Element element) {
             Preconditions.checkArgument(element.elementName().getLocalPart().equals("properties"));
             Preconditions.checkArgument(element.parentElementOption().isPresent());
             Preconditions.checkArgument(
@@ -86,7 +86,7 @@ public final class DataSource implements ServerXmlJndiResource {
             this.element = element;
         }
 
-        public ElementTree.Element getElement() {
+        public AncestryAwareNodes.Element getElement() {
             return element;
         }
 

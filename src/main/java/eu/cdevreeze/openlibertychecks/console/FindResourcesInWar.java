@@ -30,7 +30,7 @@ import eu.cdevreeze.openlibertychecks.xml.jakartaee10.Names;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.factories.DeploymentDescriptorRootElements;
 import eu.cdevreeze.openlibertychecks.xml.jakartaee10.factories.JndiResourceContainerElements;
 import eu.cdevreeze.yaidom4j.core.NamespaceScope;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementTree;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareNodes;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Comment;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Element;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.Node;
@@ -242,7 +242,7 @@ public class FindResourcesInWar {
     }
 
     public static List<JndiEnvironmentRefElement> findJndiEnvironmentRefsInDeploymentDescriptors(List<Path> dirs) {
-        List<ElementTree.Element> deploymentDescriptorRoots = dirs.stream()
+        List<AncestryAwareNodes.Element> deploymentDescriptorRoots = dirs.stream()
                 .flatMap(dir ->
                         Stream.concat(
                                 findWebXmlRootElements(dir).stream(),
@@ -262,7 +262,7 @@ public class FindResourcesInWar {
     }
 
     public static List<String> findEnabledFeaturesInServerXmlFiles(List<Path> dirs) {
-        List<ElementTree.Element> serverXmlRoots = dirs.stream()
+        List<AncestryAwareNodes.Element> serverXmlRoots = dirs.stream()
                 .flatMap(dir -> findServerXmlRootElements(dir).stream())
                 .toList();
 
@@ -274,7 +274,7 @@ public class FindResourcesInWar {
     }
 
     public static List<ServerXmlJndiResource> findJndiResourcesInServerXmlFiles(List<Path> dirs) {
-        List<ElementTree.Element> serverXmlRoots = dirs.stream()
+        List<AncestryAwareNodes.Element> serverXmlRoots = dirs.stream()
                 .flatMap(dir -> findServerXmlRootElements(dir).stream())
                 .toList();
 
@@ -329,7 +329,7 @@ public class FindResourcesInWar {
                 .toList();
     }
 
-    private static List<ElementTree.Element> findWebXmlRootElements(Path dir) {
+    private static List<AncestryAwareNodes.Element> findWebXmlRootElements(Path dir) {
         return XmlRootElementFinder.findXmlRootElements(
                 dir,
                 p -> p.getFileName().toString().endsWith(".xml"),
@@ -337,7 +337,7 @@ public class FindResourcesInWar {
         );
     }
 
-    private static List<ElementTree.Element> findEjbJarXmlRootElements(Path dir) {
+    private static List<AncestryAwareNodes.Element> findEjbJarXmlRootElements(Path dir) {
         return XmlRootElementFinder.findXmlRootElements(
                 dir,
                 p -> p.getFileName().toString().endsWith(".xml"),
@@ -345,7 +345,7 @@ public class FindResourcesInWar {
         );
     }
 
-    private static List<ElementTree.Element> findServerXmlRootElements(Path dir) {
+    private static List<AncestryAwareNodes.Element> findServerXmlRootElements(Path dir) {
         return XmlRootElementFinder.findXmlRootElements(
                 dir,
                 p -> p.getFileName().toString().endsWith(".xml"),

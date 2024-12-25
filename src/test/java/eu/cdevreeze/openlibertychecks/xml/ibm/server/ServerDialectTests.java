@@ -17,7 +17,7 @@
 package eu.cdevreeze.openlibertychecks.xml.ibm.server;
 
 import com.google.common.collect.ImmutableList;
-import eu.cdevreeze.yaidom4j.dom.ancestryaware.Document;
+import eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareDocument;
 import eu.cdevreeze.yaidom4j.dom.immutabledom.jaxpinterop.DocumentParsers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import static eu.cdevreeze.yaidom4j.dom.ancestryaware.ElementPredicates.hasName;
+import static eu.cdevreeze.yaidom4j.dom.ancestryaware.AncestryAwareElementPredicates.hasName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,9 +42,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ServerDialectTests {
 
-    private Document parseDocument() {
+    private AncestryAwareDocument parseDocument() {
         InputStream inputStream = ServerDialectTests.class.getResourceAsStream("/dialects/sample-server.xml");
-        return Document.from(
+        return AncestryAwareDocument.from(
                 DocumentParsers.builder().removingInterElementWhitespace().build()
                         .parse(new InputSource(inputStream))
         );
@@ -52,7 +52,7 @@ public class ServerDialectTests {
 
     @Test
     public void testServerXmlParsing() {
-        Document doc = parseDocument();
+        AncestryAwareDocument doc = parseDocument();
 
         Server server = new Server(doc.documentElement());
 
